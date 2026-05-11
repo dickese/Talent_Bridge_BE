@@ -1,0 +1,110 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Environment Variables & Secrets ###
+.env
+.env.local
+.env.*.local
+.env.prod
+.env.production
+.env.staging
+.env.development
+
+### Credentials & Keys ###
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+**/credentials
+**/secrets
+**/secret.yml
+**/secret.yaml
+*.gpg
+*.kms
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+*.swp
+*.swo
+*~
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+*.code-workspace
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+.Spotlight-V100
+.Trashes
+
+### Windows ###
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+
+### Logs ###
+*.log
+*.log.*
+logs/
+log/
+
+### Database & Cache ###
+*.db
+*.sqlite
+*.sqlite3
+*.h2.db
+.redis/
+dump.rdb
+
+### Temporary Files ###
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*~
+.~*
+
+### IDE Configuration with Credentials ###
+.vscode/settings.json
+.idea/runConfigurations/
+
+### OS-specific ###
+.env.local.user
+.config/
+.local/
