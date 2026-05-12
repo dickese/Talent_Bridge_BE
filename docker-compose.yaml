@@ -14,6 +14,6 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/talentbridge
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 18112005
+      SPRING_DATASOURCE_PASSWORD: 18112005@Duc
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379

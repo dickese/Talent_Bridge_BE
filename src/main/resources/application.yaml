@@ -39,6 +39,9 @@ spring:
       pageable:
         one-indexed-parameters: true
 
+  config:
+    import: file:.env[.properties]
+
 jwt:
   secret: "${JWT_SECRET:your_jwt_secret_key_minimum_256_bits_length_for_security}"
   access-token:
