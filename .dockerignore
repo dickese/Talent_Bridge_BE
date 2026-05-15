@@ -1,0 +1,31 @@
+# Exclude version control
+.git
+.gitignore
+
+# Exclude documentation
+README.md
+
+# Exclude environment files (sensitive data)
+.env*
+.env.prod
+.env.dev
+
+
+# Exclude Maven wrapper (not needed in container)
+mvnw
+mvnw.cmd
+
+# Exclude IDE files
+.idea/
+.vscode/
+*.iml
+
+# Exclude logs and temporary files
+logs/
+*.log
+*.tmp
+
+# Exclude data directory if not needed
+data/
+
+target/

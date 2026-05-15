@@ -1,0 +1,16 @@
+spring:
+  config:
+    import: file:.env.dev[.properties]
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      url: ${REDIS_URL:redis://localhost:6379}
+      timeout: 60000ms
+      jedis:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          timeout: 1800s
