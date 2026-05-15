@@ -4,19 +4,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfiguration {
-    
+    private final UrlBasedCorsConfigurationSource corsConfigurationSource;
     private final JwtDecoder customJwtDecoder;
     private static final String[] WHITELIST = {
             // LOGIN
@@ -38,7 +38,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain jwtFilterChain(HttpSecurity httpSecurity,
-                                              CustomAuthenticationEntryPoint customerAuthenticationEntryPoint) throws Exception {
+                                              CustomAuthenticationEntryPoint customerAuthenticationEntryPoint) {
 
         log.info("Loading jwtFilterChain - Securing all other endpoints with JWT authentication");
         httpSecurity
@@ -51,6 +51,7 @@ public class SecurityConfiguration {
                         .authenticationEntryPoint(customerAuthenticationEntryPoint)
                         .bearerTokenResolver(new SkipPathBearerTokenResolver())
                 )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
     }

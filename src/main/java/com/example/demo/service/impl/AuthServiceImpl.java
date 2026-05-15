@@ -53,7 +53,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-    private final String FRONTEND_URL = "http://localhost:5173/academy";
+//    private final String FRONTEND_URL = "http://localhost:5173/academy";
     private final EmailService emailService;
     private final VerificationTokenRepository verificationTokenRepository;
     private final RoleRepository roleRepository;
@@ -123,16 +123,16 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(mappedUser);
     }
 
-    public String generateVerifyEmailUrl(User user) {
-        String token = UUID.randomUUID().toString();
-        EmailVerificationToken tokenEntity = EmailVerificationToken.builder()
-                .user(user)
-                .token(token)
-                .expiredAt(Instant.now().plus(15, ChronoUnit.MINUTES)).build();
-
-        verificationTokenRepository.save(tokenEntity);
-        return FRONTEND_URL + "/auth/verify-email&token=" + token;
-    }
+//    public String generateVerifyEmailUrl(User user) {
+//        String token = UUID.randomUUID().toString();
+//        EmailVerificationToken tokenEntity = EmailVerificationToken.builder()
+//                .user(user)
+//                .token(token)
+//                .expiredAt(Instant.now().plus(15, ChronoUnit.MINUTES)).build();
+//
+//        verificationTokenRepository.save(tokenEntity);
+//        return FRONTEND_URL + "/auth/verify-email&token=" + token;
+//    }
 
     @Override
     public AuthResult login(LoginRequest loginRequest) {
@@ -173,9 +173,9 @@ public class AuthServiceImpl implements AuthService {
         return ResponseCookie
                 .from("REFRESH_TOKEN", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
-                .sameSite("Lax")
+                .sameSite("None")
                 .maxAge(0)
                 .build();
     }
@@ -247,9 +247,9 @@ public class AuthServiceImpl implements AuthService {
         ResponseCookie responseCookie = ResponseCookie
                 .from("REFRESH_TOKEN",refreshToken)
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
-                .sameSite("Lax")
+                .sameSite("None")
                 .maxAge(refreshTokenExpiration)
                 .build();
 
