@@ -210,3 +210,30 @@ CREATE TRIGGER trg_job_count
     FOR EACH ROW
 EXECUTE FUNCTION update_company_job_count();
 
+
+
+INSERT INTO skills (id, name, created_at, updated_at, created_by, is_deleted) VALUES
+(1, 'Java', now(), now(), 'ADMIN', false),
+(2, 'SQL', now(), now(), 'ADMIN', false),
+(3, 'JavaScript', now(), now(), 'ADMIN', false),
+(4, 'Ruby', now(), now(), 'ADMIN', false),
+(5, 'Golang', now(), now(), 'ADMIN', false),
+(6, 'NextJS', now(), now(), 'ADMIN', false),
+(7, 'NestJS', now(), now(), 'ADMIN', false),
+(8, 'Angular', now(), now(), 'ADMIN', false),
+(9, 'VueJS', now(), now(), 'ADMIN', false),
+(10, 'Spring', now(), now(), 'ADMIN', false),
+(11, 'Python', now(), now(), 'ADMIN', false),
+(12, 'Django', now(), now(), 'ADMIN', false),
+(13, 'ReactJS', now(), now(), 'ADMIN', false),
+(14, 'React Native', now(), now(), 'ADMIN', false),
+(15, 'Kotlin', now(), now(), 'ADMIN', false),
+(16, 'Swift', now(), now(), 'ADMIN', false),
+(17, 'Mobile', now(), now(), 'ADMIN', false);
+
+
+
+
+
+
+
