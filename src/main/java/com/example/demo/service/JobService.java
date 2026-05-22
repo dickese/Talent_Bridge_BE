@@ -5,6 +5,7 @@ import com.example.demo.dto.request.job.DefaultJobRequest;
 import com.example.demo.dto.response.company.DefaultCompanyResponse;
 import com.example.demo.dto.response.job.DefaultJobResponse;
 import com.example.demo.model.domain.job.Job;
+import com.example.demo.model.domain.subscriber.Subscriber;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -21,4 +22,5 @@ public interface JobService {
     DefaultJobResponse createJobForCurrentCompany(DefaultJobRequest request);
     DefaultJobResponse updateJobForCurrentCompany(Long id, DefaultJobRequest request);
     void deleteJobForCurrentCompany(Long id);
+    List<Job> getJobsMatchingSubscriber(Subscriber subscriber);
 }

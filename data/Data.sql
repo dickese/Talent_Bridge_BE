@@ -187,31 +187,6 @@ INSERT INTO permission (id, created_at, created_by, modified_by, updated_at, api
     (3, 63),
     (3, 64);
 
-CREATE OR REPLACE FUNCTION update_company_job_count()
-    RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'INSERT' THEN
-UPDATE companies
-SET job_count = job_count + 1
-WHERE id = NEW.company_id;
-
-ELSIF TG_OP = 'DELETE' THEN
-UPDATE companies
-SET job_count = job_count - 1
-WHERE id = OLD.company_id;
-END IF;
-
-RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_job_count
-    AFTER INSERT OR DELETE ON jobs
-    FOR EACH ROW
-EXECUTE FUNCTION update_company_job_count();
-
-
-
 INSERT INTO skills (id, name, created_at, updated_at, created_by, is_deleted) VALUES
 (1, 'Java', now(), now(), 'ADMIN', false),
 (2, 'SQL', now(), now(), 'ADMIN', false),
@@ -230,10 +205,4 @@ INSERT INTO skills (id, name, created_at, updated_at, created_by, is_deleted) VA
 (15, 'Kotlin', now(), now(), 'ADMIN', false),
 (16, 'Swift', now(), now(), 'ADMIN', false),
 (17, 'Mobile', now(), now(), 'ADMIN', false);
-
-
-
-
-
-
 

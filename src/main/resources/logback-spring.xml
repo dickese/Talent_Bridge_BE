@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Spring Boot Default Properties -->
+    <springProperty name="LOG_FILE" source="logging.file.name" defaultValue="logs/application.log"/>
+    <springProperty name="LOG_LEVEL" source="logging.level.root" defaultValue="INFO"/>
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Email Recommendation Flow Log File Appender -->
+    <appender name="EMAIL_FLOW_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/email-recommendation-flow.log</file>
+
+        <!-- Rolling Policy: Rotate daily and keep 30 days of logs -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Daily rotation with max file size check -->
+            <fileNamePattern>logs/email-recommendation-flow-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- Keep max 100MB per day, and max 30 days of history -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- Encoder: Log format -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <!-- Filter: Only ERROR and INFO levels for this logger -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <!-- Async Appender for Email Flow (Better Performance) -->
+    <appender name="ASYNC_EMAIL_FLOW" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>false</includeCallerData>
+        <appender-ref ref="EMAIL_FLOW_FILE"/>
+    </appender>
+
+    <!-- General Application Log File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/application.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/application-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Async Appender for General Logs -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>false</includeCallerData>
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <!-- =============================================== -->
+    <!-- Logger Configuration for Email Flow Components -->
+    <!-- =============================================== -->
+
+    <!-- JobRecommendationScheduler Logger -->
+    <logger name="com.example.demo.scheduler.JobRecommendationScheduler" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC_EMAIL_FLOW"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- EmailTaskWorker Logger -->
+    <logger name="com.example.demo.scheduler.worker.EmailTaskWorker" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC_EMAIL_FLOW"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- EmailTaskWorkerPool Logger -->
+    <logger name="com.example.demo.scheduler.worker.EmailTaskWorkerPool" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC_EMAIL_FLOW"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- EmailTaskService Logger -->
+    <logger name="com.example.demo.service.impl.EmailTaskServiceImpl" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC_EMAIL_FLOW"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- EmailService Logger -->
+    <logger name="com.example.demo.service.impl.EmailServiceImpl" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC_EMAIL_FLOW"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- JobService Logger -->
+    <logger name="com.example.demo.service.impl.JobServiceImpl" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC_EMAIL_FLOW"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- =============================================== -->
+    <!-- Root Logger Configuration -->
+    <!-- =============================================== -->
+
+    <!-- Development Profile -->
+    <springProfile name="dev">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC_FILE"/>
+        </root>
+    </springProfile>
+
+    <!-- Production Profile -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="ASYNC_FILE"/>
+        </root>
+    </springProfile>
+
+    <!-- Default (If no profile specified) -->
+    <springProfile name="!dev,!prod">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC_FILE"/>
+        </root>
+    </springProfile>
+
+</configuration>
+

@@ -9,11 +9,9 @@ import com.example.demo.model.domain.job.Company;
 import com.example.demo.model.domain.job.ExperienceLevel;
 import com.example.demo.model.domain.job.Job;
 import com.example.demo.model.domain.subscriber.Skill;
+import com.example.demo.model.domain.subscriber.Subscriber;
 import com.example.demo.model.domain.user.User;
-import com.example.demo.repository.CompanyRepository;
-import com.example.demo.repository.JobRepository;
-import com.example.demo.repository.SkillRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.*;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.JobService;
 import jakarta.persistence.EntityNotFoundException;
@@ -39,6 +37,7 @@ public class JobServiceImpl implements JobService {
     private final CompanyRepository companyRepository;
     private final SkillRepository skillRepository;
     private final AuthService authService;
+    private final SubscriberRepository subscriberRepository;
 
     @Override
     public DefaultJobResponse createJob(DefaultJobRequest request) {
@@ -218,6 +217,31 @@ public class JobServiceImpl implements JobService {
         }
 
         jobRepository.delete(job);
+    }
+
+    @Override
+    public List<Job> getJobsMatchingSubscriber(Subscriber subscriber) {
+        if (subscriber == null) {
+            return List.of();
+        }
+
+        List<Long> skillIds = subscriber.getSkills().stream().map(Skill::getId).toList();
+
+        return jobRepository.findJobsMatchSubscribers(skillIds,
+                subscriber.getLevel().name(),
+                subscriber.getExpectedSalary(),
+                2,
+                5);
+    }
+
+
+    /**
+     * Check if job experience level is compatible with subscriber level
+     */
+    private boolean isExperienceLevelCompatible(ExperienceLevel subscriberLevel, ExperienceLevel jobLevel) {
+        // Subscriber with higher level can apply to lower level jobs
+        // Subscriber with lower level cannot apply to higher level jobs
+        return subscriberLevel.ordinal() >= jobLevel.ordinal();
     }
 
     public Job updateEntityFromRequest(Job job, DefaultJobRequest request){

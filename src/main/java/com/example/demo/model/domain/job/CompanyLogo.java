@@ -1,15 +1,7 @@
 package com.example.demo.model.domain.job;
-
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -17,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "company_logos")
+@Builder
 public class CompanyLogo {
 
     @Id

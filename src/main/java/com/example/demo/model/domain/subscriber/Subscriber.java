@@ -26,7 +26,6 @@ public class Subscriber extends BaseEntity {
     private ExperienceLevel level;
 
     private Double expectedSalary;
-    private String expectedLocation;
 
     @ManyToMany
     @JoinTable(

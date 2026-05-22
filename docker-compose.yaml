@@ -4,16 +4,27 @@ services:
     container_name: redis_cache
     ports:
       - "6379:6379"
-  app:
-    build: .
-    container_name: spring_app
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+
     ports:
-      - "8080:8080"
-    depends_on:
-      - redis
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/talentbridge
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 18112005@Duc
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+#  app:
+#    build: .
+#    container_name: spring_app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - redis
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/talentbridge
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: 18112005@Duc
+#      SPRING_REDIS_HOST: redis
+#      SPRING_REDIS_PORT: 6379
+#
+#volumes:
+#  rabbitmq_data:
